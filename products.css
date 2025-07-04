@@ -1,28 +1,20 @@
-/* --- DEĞİŞKENLER VE TEMEL AYARLAR --- */
+/* --- products.css --- */
+
 :root {
     --bg-color: #1a1a1a;
     --text-color: #f0f0f0;
     --primary-color: #3a86ff;
     --font-family: 'Inter', sans-serif;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
     font-family: var(--font-family);
     background-color: var(--bg-color);
     color: var(--text-color);
     overflow-x: hidden;
 }
-
-.showcase {
-    position: relative;
-    width: 100%;
-    opacity: 0;
-    transition: opacity 0.8s;
-}
+.showcase { position: relative; width: 100%; opacity: 0; transition: opacity 0.8s; }
 .showcase.is-loaded { opacity: 1; }
-
 .background-slider {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
 }
@@ -36,9 +28,13 @@ body {
 .background-slider img.is-active { opacity: 1; transform: scale(1); }
 
 /* ORTAK STİLLER */
+.content-panel { display: flex; flex-direction: column; justify-content: center; position: relative; }
 .text-rotator { position: relative; overflow: hidden; }
-.content-slide { display: none; }
-.content-slide.is-active { display: block; }
+.content-slide {
+    position: absolute; inset: 0; opacity: 0; transform: translateY(30px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.content-slide.is-active { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
 .content-slide p { line-height: 1.7; color: rgba(255, 255, 255, 0.8); }
 .navigation-arrows { display: flex; gap: 1rem; margin-top: 2.5rem; }
 .arrow-btn {
@@ -53,44 +49,41 @@ body {
 .swiper-wrapper { align-items: center; }
 .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-
-/*
-===================================================================
-    MASAÜSTÜ STİLLERİ (1025px ve üzeri)
-===================================================================
-*/
+/* MASAÜSTÜ (1025px ve üzeri) */
 @media (min-width: 1025px) {
     body { overflow: hidden; }
     .showcase-content {
         height: 100vh; display: grid; grid-template-columns: 40% 60%;
         align-items: center; max-width: 1800px; margin: 0 auto; padding: 0 4vw;
     }
-    .content-panel { display: flex; flex-direction: column; justify-content: center; position: relative; padding-left: 4vw; height: 100%; }
+    .content-panel { padding-left: 4vw; height: 100%; }
     .text-rotator { height: 250px; }
     .content-slide h1 { font-size: 3.5rem; }
     .content-slide p { font-size: 1.1rem; max-width: 500px; }
-    .timeline-nav { display: flex; position: absolute; left: 0; top: 50%; transform: translateY(-50%); flex-direction: column; gap: 25px; z-index: 3; }
-    .timeline-nav::before { content: ''; position: absolute; width: 1px; height: 100%; background-color: rgba(255,255,255,0.2); left: 50%; top: 0; transform: translateX(-50%); z-index: -1; }
+    .timeline-nav {
+        position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+        display: flex; flex-direction: column; gap: 25px; z-index: 3;
+    }
+    .timeline-nav::before {
+        content: ''; position: absolute; width: 1px; height: 100%; background-color: rgba(255,255,255,0.2);
+        left: 50%; top: 0; transform: translateX(-50%); z-index: -1;
+    }
     .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); background-color: transparent; cursor: pointer; transition: all 0.3s; }
     .dot.is-active { background-color: #fff; border-color: #fff; transform: scale(1.2); }
-    .card-slider { height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card-slider { height: 100vh; }
     .swiper-slide { width: 65%; filter: brightness(0.6); transform: scale(0.9); border-radius: 18px; transition: all 0.5s ease; }
     .swiper-slide-active { width: 85%; filter: brightness(1); transform: scale(1); }
     .site-footer { position: fixed; }
 }
 
-/*
-===================================================================
-    MOBİL STİLLERİ (1024px ve altı)
-===================================================================
-*/
+/* MOBİL (1024px ve altı) */
 @media (max-width: 1024px) {
     body { overflow-y: auto; }
     .showcase-content { display: flex; flex-direction: column; padding: 0; }
     .slider-pane { order: 1; width: 100%; height: 55vh; padding: 80px 0 2rem 0; }
     .card-slider { height: 100%; }
     .swiper-slide, .swiper-slide-active {
-        width: 75%; height: 100%; filter: none; transform: none; border-radius: 12px;
+        width: 75% !important; height: 100% !important; filter: none !important; transform: none !important; border-radius: 12px;
     }
     .content-panel { order: 2; padding: 2rem 1.5rem 4rem; text-align: center; }
     .timeline-nav { display: none; }
@@ -101,7 +94,7 @@ body {
     .site-footer { position: static; flex-direction: column-reverse; gap: 1.5rem; background: var(--bg-color); padding: 2rem; }
 }
 
-/* --- ORTAK STİLLER (Footer, Butonlar vb. - Tekrar) --- */
+/* FOOTER VE GERİ DÖN BUTONU (Ortak) */
 .site-footer {
     bottom: 0; left: 0; width: 100%; z-index: 20;
     display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4vw;
@@ -117,7 +110,6 @@ body {
 .button.button-secondary { background-color: transparent; border: 1px solid var(--primary-color); }
 .button:hover, .button.button-secondary:hover { background-color: #1e71f5; border-color: #1e71f5; color: #fff; }
 .copyright-text { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); margin-right: 2rem; }
-
 .back-to-home {
     position: fixed; top: 30px; left: 4vw; z-index: 50;
     width: 44px; height: 44px; background-color: rgba(255,255,255,0.1);
