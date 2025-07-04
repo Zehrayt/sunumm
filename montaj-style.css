@@ -1,4 +1,3 @@
-/* --- TEMEL AYARLAR VE TAM EKRAN DÜZENİ --- */
 :root {
     --bg-color: #F2A913;
     --text-color: #1a1a1a;
@@ -97,7 +96,7 @@ body {
 @keyframes scroll {
     from { transform: translateX(0); } to { transform: translateX(calc(-100% - 1.5vh)); }
 }
-.slider:hover .list { animation-play-state: paused; }
+
 .slider .item { transition: transform 0.4s; }
 .slider .item:hover { transform: scale(1.05); }
 
