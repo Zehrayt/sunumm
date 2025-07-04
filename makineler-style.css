@@ -26,7 +26,6 @@ body {
     box-sizing: border-box;
 }
 
-/* --- ÜST BÖLÜM: METİN VE VİDEO --- */
 .top-section {
     flex-grow: 1;
     display: grid;
@@ -62,7 +61,6 @@ body {
     background-color: #000;
 }
 
-/* DEĞİŞİKLİK: iframe yerine video etiketini stillendiriyoruz */
 .video-wrapper video {
     position: absolute;
     top: 0;
@@ -71,14 +69,13 @@ body {
     height: 100%;
 }
 
-/* --- GERİ DÖN BUTONU --- */
+
 .back-to-home {
     position: fixed; top: 30px; left: 30px; z-index: 50; width: 44px; height: 44px; background-color: rgba(255, 255, 255, 0.2); border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s;
 }
 .back-to-home svg { fill: var(--text-color); }
 .back-to-home:hover { background-color: var(--primary-color); border-color: var(--primary-color); }
 
-/* --- SONSUZ FOTOĞRAF DÖNGÜSÜ --- */
 .slider-section {
     width: 100vw; height: 20vh; margin-top: 4vh; position: relative; left: 50%; transform: translateX(-50%);
 }
@@ -97,11 +94,10 @@ body {
 @keyframes scroll {
     from { transform: translateX(0); } to { transform: translateX(calc(-100% - 1.5vh)); }
 }
-.slider:hover .list { animation-play-state: paused; }
+
 .slider .item { transition: transform 0.4s; }
 .slider .item:hover { transform: scale(1.05); }
 
-/* --- RESPONSIVE AYARLAR --- */
 @media (max-width: 1024px) {
     body {
         overflow: auto; height: auto;
