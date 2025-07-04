@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Kendi ürün verilerinizi buraya girin
     const slideData = [
         { title: "Kompozit Izgara", description: "Yüksek dayanımlı kompozit malzemeden üretilmiş, korozyona ve ağır yüklere karşı maksimum direnç gösteren yenilikçi ızgara çözümü.", cardImage: "resim/60x80.png", backgroundImage: "resim/ap7.png" },
         { title: "Rögar Kapağı", description: "Kent estetiğine uygun, sessiz ve güvenli bir kullanım sunan, en son teknoloji ile üretilmiş yeni nesil rögar kapağı.", cardImage: "resim/100x100.png", backgroundImage: "resim/ap8.png" },
@@ -17,9 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const textRotator = document.querySelector('.text-rotator');
     const swiperWrapper = document.querySelector('.swiper-wrapper');
     const timelineNav = document.querySelector('.timeline-nav');
+    
+    if (!showcase || !bgSlider || !textRotator || !swiperWrapper || !timelineNav) {
+        console.error('Gerekli HTML elemanlarından biri bulunamadı!');
+        return;
+    }
+
     let currentIndex = 0;
 
-    // İçeriği dinamik olarak oluştur
     slideData.forEach((data, index) => {
         const bgImg = document.createElement('img');
         bgImg.src = data.backgroundImage;
@@ -37,21 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const dot = document.createElement('button');
         dot.classList.add('dot');
-        dot.addEventListener('click', () => swiper.slideToLoop(index));
+        dot.dataset.index = index;
         timelineNav.appendChild(dot);
     });
     
-    // Oluşturulan elementleri tekrar seç
     const bgImages = document.querySelectorAll('.background-slider img');
     const textSlides = document.querySelectorAll('.content-slide');
     const navDots = document.querySelectorAll('.dot');
 
-    // Swiper'ı DOĞRU AYARLARLA başlat
     const swiper = new Swiper('.swiper', {
-        effect: 'coverflow', // <<-- EFEKT COVERFLOW OLARAK DEĞİŞTİRİLDİ
+        effect: 'coverflow',
         grabCursor: true,
         centeredSlides: true,
-        slidesPerView: 'auto', // <<-- BU ÇOK ÖNEMLİ
+        slidesPerView: 'auto',
         loop: true,
         coverflowEffect: {
             rotate: 0,
@@ -64,55 +66,55 @@ document.addEventListener('DOMContentLoaded', () => {
             nextEl: '.next-btn',
             prevEl: '.prev-btn',
         },
+        on: {
+            init: function () {
+                initialize(this);
+            },
+            slideChange: function () {
+                updateContent(this.realIndex);
+            },
+        },
+    });
+    
+    navDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index, 10);
+            swiper.slideToLoop(index);
+        });
     });
 
-    // Sayfa içeriğini güncelleyen fonksiyon
     function updateContent(index) {
-        if (index === currentIndex || textSlides.length === 0) return;
+        if (currentIndex === index) return;
+        
+        textSlides[currentIndex].classList.remove('is-active');
+        bgImages[currentIndex].classList.remove('is-active');
+        navDots[currentIndex].classList.remove('is-active');
 
-        const prevTextSlide = textSlides[currentIndex];
-        if(prevTextSlide) prevTextSlide.classList.add('is-exiting');
-
-        bgImages.forEach(img => img.classList.remove('is-active'));
-        textSlides.forEach(slide => slide.classList.remove('is-active'));
-        navDots.forEach(dot => dot.classList.remove('is-active'));
-
-        bgImages[index].classList.add('is-active');
         textSlides[index].classList.add('is-active');
+        bgImages[index].classList.add('is-active');
         navDots[index].classList.add('is-active');
 
-        setTimeout(() => {
-            if(prevTextSlide) prevTextSlide.classList.remove('is-exiting');
-        }, 500);
-        
         const activeTextSlide = textSlides[index];
         textRotator.style.height = `${activeTextSlide.scrollHeight}px`;
+        
         currentIndex = index;
     }
 
-    swiper.on('slideChange', () => {
-        updateContent(swiper.realIndex);
-    });
-
-    // Başlangıç fonksiyonu
-    function initialize() {
-        if(bgImages.length > 0) bgImages[0].classList.add('is-active');
-        if(textSlides.length > 0) {
-            textSlides[0].classList.add('is-active');
-            textRotator.style.height = `${textSlides[0].scrollHeight}px`;
+    function initialize(swiperInstance) {
+        if (bgImages.length > 0) bgImages[swiperInstance.realIndex].classList.add('is-active');
+        if (textSlides.length > 0) {
+            textSlides[swiperInstance.realIndex].classList.add('is-active');
+            textRotator.style.height = `${textSlides[swiperInstance.realIndex].scrollHeight}px`;
         }
-        if(navDots.length > 0) navDots[0].classList.add('is-active');
+        if (navDots.length > 0) navDots[swiperInstance.realIndex].classList.add('is-active');
         
         showcase.classList.add('is-loaded');
+        currentIndex = swiperInstance.realIndex;
     }
     
-    // Pencere yeniden boyutlandırıldığında metin yüksekliğini ayarla
     window.addEventListener('resize', () => {
-        const activeTextSlide = textSlides[currentIndex];
-        if (activeTextSlide) {
-            textRotator.style.height = `${activeTextSlide.scrollHeight}px`;
+        if (textSlides[currentIndex]) {
+            textRotator.style.height = `${textSlides[currentIndex].scrollHeight}px`;
         }
     });
-
-    initialize();
 });
