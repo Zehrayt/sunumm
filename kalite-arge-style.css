@@ -15,74 +15,40 @@ body {
     font-family: var(--font-family);
 }
 
-/* --- MASAÜSTÜ DÜZENİ (1025px ve üzeri) --- */
-@media (min-width: 1025px) {
-    body {
-        overflow: hidden; 
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .page-container {
-        flex-grow: 1;
-        padding: 0 4vw;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* İçeriği dikeyde ortala */
-        gap: 3vh;
-        overflow: hidden;
-    }
-
-    .slider-section {
-        height: 25vh;
-        flex-shrink: 0;
-    }
-
-    .certificate-grid {
-        grid-template-columns: repeat(8, 1fr);
-    }
-
-    .video-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    
-    .minimal-card h3 {
-        font-size: 0.8rem;
-    }
-}
-
-
-/* --- GENEL STİLLER (Tüm cihazlar için) --- */
+/* Sayfa içeriğinin ana konteyneri */
 .page-container {
     width: 100%;
+    max-width: 1400px; /* İçeriğin çok genişlemesini engelle */
+    margin: 0 auto; /* Sayfayı ortala */
+    padding: 100px 4vw 4vh; /* Üst, yanlar ve alt boşluklar */
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
 }
 
-.content-section {
-    width: 90%;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
+/* Bölüm Başlıkları */
 .section-title {
-    font-size: 1.5rem;
-    padding-bottom: 8px;
+    font-size: 1.8rem;
+    padding-bottom: 10px;
     border-bottom: 2px solid var(--card-border);
     font-weight: 600;
-    margin-top: 3rem; /* Bölümler arası boşluk */
     margin-bottom: 1.5rem;
 }
-.page-container .content-section:first-child .section-title{
-    margin-top: 0; /* İlk bölümün üst boşluğunu kaldır */
-}
 
+/* GENEL GRID YAPISI (Kartlar için) */
 .documents-grid {
     display: grid;
     gap: 1.5rem;
 }
 
+/* Sertifikalar ve Videolar için esnek grid */
+/* Varsayılan olarak 2 sütun (mobil için) */
+.certificate-grid, .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* GENEL KART STİLİ */
 .document-card {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -103,38 +69,45 @@ body {
 .minimal-card {
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    min-height: 90px;
+    padding: 1.2rem;
+    min-height: 100px;
     cursor: pointer;
 }
 
 .minimal-card h3 {
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.3;
 }
 
 .card-button {
-    padding: 10px;
+    padding: 12px;
     font-size: 0.9rem;
     margin-top: 1rem;
     border-radius: 6px;
-    display: block; width: 100%; background-color: var(--primary-color); color: #fff; text-decoration: none; font-weight: 600; transition: background-color 0.3s; border: none; font-family: inherit;
+    display: block; width: 100%; background-color: var(--primary-color); color: #fff;
+    text-decoration: none; font-weight: 600; transition: background-color 0.3s;
+    border: none; font-family: inherit;
 }
 
 .card-button:hover { background-color: #1e71f5; }
 
 
-/* --- ALT FOTOĞRAF ŞERİDİ (Tüm cihazlar için) --- */
+/* --- ALT FOTOĞRAF ŞERİDİ --- */
 .slider-section {
-    width: 100%;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 2vh 0;
     box-sizing: border-box;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color); /* Arka planı garantile */
 }
 
 .slider {
-    width: 100%; height: 200px; /* Sabit bir yükseklik verdim */
-    overflow: hidden; mask-image: linear-gradient( to right, transparent, #000 5%, 95%, transparent ); display: flex; flex-wrap: nowrap;
+    width: 100%; height: 200px; overflow: hidden;
+    mask-image: linear-gradient( to right, transparent, #000 5%, 95%, transparent );
+    display: flex; flex-wrap: nowrap;
 }
 .slider .list {
     display: flex; flex-shrink: 0; gap: 20px; animation: scroll 60s linear infinite;
@@ -149,18 +122,22 @@ body {
     from { transform: translateX(0); } to { transform: translateX(calc(-100% - 20px)); }
 }
 .slider .item { transition: transform 0.4s; }
+.slider:hover .item:not(:hover) { filter: grayscale(1); }
 .slider .item:hover { transform: scale(1.05); }
 
 
-/* --- DİĞER SABİT ELEMANLAR (Tüm cihazlar için) --- */
+/* --- DİĞER SABİT ELEMANLAR --- */
 .back-to-home {
-    position: fixed; top: 30px; left: 4vw; z-index: 1001;
-    width: 44px; height: 44px; background-color: #fff; border: 1px solid var(--card-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s;
+    position: fixed; top: 30px; left: 30px; z-index: 1001;
+    width: 44px; height: 44px; background-color: #fff; border: 1px solid var(--card-border);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s;
 }
 .back-to-home svg { fill: var(--text-color); }
-.back-to-home:hover { background-color: var(--primary-color); border-color: var(--primary-color); transform: scale(1.1); }
+.back-to-home:hover { background-color: var(--primary-color); border-color: var(--primary-color); }
 .back-to-home:hover svg { fill: #fff; }
 
+/* ... (Video Modal stilleri aynı kalabilir) ... */
 .video-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
 .modal-content { position: relative; width: 80%; max-width: 900px; }
 .modal-content #video-player { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; }
@@ -169,49 +146,31 @@ body {
 .close-button:hover{ color: #ccc; }
 
 
-/* --- MOBİL UYUMLULUK DÜZENLEMELERİ --- */
-@media (max-width: 1024px) {
+/* --- TABLET ve ÜZERİ DÜZENLEMELERİ --- */
+@media (min-width: 768px) {
+    /* Tabletlerde ve daha geniş ekranlarda video ve sertifikalar 4 sütun olsun */
+    .certificate-grid, .video-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
+/* --- SADECE ÇOK GENİŞ EKRANLAR İÇİN TEK EKRAN MODU --- */
+@media (min-width: 1600px) and (min-height: 900px) {
     body {
-        /* Kaydırmaya izin ver */
-        overflow-y: auto;
+        overflow: hidden; /* Sadece çok genişse kaydırmayı engelle */
     }
     
     .page-container {
-        padding: 100px 5vw 4vh; /* Geri dön butonunun altına gitmesi için üst boşluk */
-    }
-
-    /* Tabletlerde sertifika gridini 4 sütuna düşür */
-    .certificate-grid {
-        grid-template-columns: repeat(4, 1fr);
+        justify-content: center;
+        flex-grow: 1;
+        padding-top: 0;
+        padding-bottom: 0;
     }
     
-    /* Tabletlerde video gridini 2 sütuna düşür */
-    .video-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 767px) {
-    .section-title {
-        font-size: 1.3rem;
-    }
-    
-    /* En küçük ekranlarda sertifika gridini 3 sütuna düşür */
-    .certificate-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    /* En küçük telefonlarda sertifika ve video gridini 2 sütuna düşür */
-    .certificate-grid, .video-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .minimal-card {
-        min-height: 80px;
-        padding: 0.5rem;
-    }
-    .minimal-card h3 {
-        font-size: 0.75rem;
+    .slider-section {
+        position: fixed; /* Altta sabit kalsın */
+        bottom: 0;
+        left: 0;
     }
 }
