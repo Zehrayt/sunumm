@@ -71,5 +71,22 @@
             </div>
         </section>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sliders = document.querySelectorAll('.slider');
+
+            sliders.forEach(slider => {
+                // 'click' olayı hem fare tıklaması hem de mobil dokunma için çalışır
+                slider.addEventListener('click', () => {
+                    const list = slider.querySelector('.list');
+                    if (list.style.animationPlayState === 'paused') {
+                        list.style.animationPlayState = 'running';
+                    } else {
+                        list.style.animationPlayState = 'paused';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
