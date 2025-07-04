@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kent Teknik Kimya - Ürünlerimiz</title>
+    
+    <!-- STİLLER -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="products.css">
+    
+    <!-- SCRIPTLER (defer özelliği ile) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js" defer></script>
+    <script src="products.js" defer></script>
 </head>
 <body>
     <a href="index.html" class="back-to-home" title="Ana Sayfaya Dön">
@@ -26,7 +32,7 @@
                     <button class="arrow-btn next-btn"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"></path></svg></button>
                 </div>
             </section>
-            <section class="slider-pane">
+            <section class="card-slider">
                 <div class="swiper">
                     <div class="swiper-wrapper"></div>
                 </div>
@@ -41,8 +47,5 @@
             <a href="https://www.kentteknikkimya.com.tr/katalog/" target="_blank" class="button button-secondary">Kataloğu İncele</a>
         </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-    <script src="products.js"></script>
 </body>
 </html>
