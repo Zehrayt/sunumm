@@ -16,21 +16,20 @@ body {
     overflow: hidden; 
     height: 100vh;
     display: flex;
-    flex-direction: column; /* Ana düzen dikey */
+    flex-direction: column; 
 }
 
-/* Sayfa içeriğinin ana konteyneri */
 .page-container {
-    padding: 0 4vw; /* Üst/alt padding'i sıfırladık */
+    padding: 0 4vw; 
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* İçeriği dikeyde ortala */
-    flex-grow: 1; /* Alttaki slider hariç tüm alanı kapla */
-    gap: 4vh; /* Ana bölümler arası boşluk */
+    justify-content: center; 
+    flex-grow: 1; 
+    gap: 4vh;
 }
 
-/* Bölüm Başlıkları */
+
 .section-title {
     font-size: 1.5rem;
     padding-bottom: 8px;
@@ -39,10 +38,10 @@ body {
     margin-bottom: 2vh;
 }
 
-/* GENEL GRID YAPISI (Kartlar için) */
+
 .documents-grid {
     display: grid;
-    gap: 1.5vw; /* Sütunlar arası boşluk */
+    gap: 1.5vw; 
 }
 
 /* YENİ: Sertifikalar için 8 sütunlu grid */
@@ -73,17 +72,17 @@ body {
     box-shadow: 0 8px 20px rgba(44, 62, 80, 0.08);
 }
 
-/* Minimalist Kart Stili (Hem sertifika hem video için) */
+
 .minimal-card {
     justify-content: space-between;
-    align-items: center; /* Metni dikeyde ortalamak için */
+    align-items: center; 
     padding: 1rem;
-    min-height: 70px; /* Kart yüksekliğini biraz azalttım */
+    min-height: 70px; 
     cursor: pointer;
 }
 
 .minimal-card h3 {
-    font-size: 0.8rem; /* Fontu küçülttüm */
+    font-size: 0.8rem;
     font-weight: 500;
     line-height: 1.3;
 }
@@ -101,11 +100,11 @@ body {
 /* --- ALT FOTOĞRAF ŞERİDİ --- */
 .slider-section {
     width: 100%;
-    height: 25vh; /* Alanı biraz daha artırdım */
-    flex-shrink: 0; /* Küçülmesini engelle */
+    height: 25vh; 
+    flex-shrink: 0; 
     padding: 2vh 0;
     box-sizing: border-box;
-    background-color: var(--bg-color); /* Üstteki içerikle aynı arka plan */
+    background-color: var(--bg-color); 
 }
 
 .slider {
@@ -123,11 +122,11 @@ body {
 @keyframes scroll {
     from { transform: translateX(0); } to { transform: translateX(calc(-100% - 20px)); }
 }
-.slider:hover .list { animation-play-state: paused; }
+
 .slider .item { transition: transform 0.4s; }
 .slider .item:hover { transform: scale(1.05); }
 
-/* GERİ DÖN BUTONU */
+
 .back-to-home {
     position: fixed;
     top: 30px;
@@ -139,8 +138,7 @@ body {
 .back-to-home:hover { background-color: var(--primary-color); border-color: var(--primary-color); transform: scale(1.1); }
 .back-to-home:hover svg { fill: #fff; }
 
-/* VİDEO MODAL (Popup) */
-/* ... (Bu bölüm aynı kalabilir) ... */
+
 .video-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
 .modal-content { position: relative; width: 80%; max-width: 900px; }
 .modal-content #video-player { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; }
