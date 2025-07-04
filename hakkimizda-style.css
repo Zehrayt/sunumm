@@ -6,29 +6,30 @@
     --font-family: 'Inter', sans-serif;
 }
 
+/* YERİNE BUNU YAPIŞTIRIN */
+
 body {
     margin: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-family);
-    overflow: hidden; 
-    height: 100vh;
 }
 
-/* Sayfa içeriğinin ana konteyneri */
 .page-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 50% - 50% iki sütun */
-    height: 100%;
+    grid-template-columns: 1fr; /* Varsayılan olarak tek sütun */
     width: 100%;
+    min-height: 100vh;
 }
 
 /* SOL TARAF: METİN İÇERİĞİ */
 .content-panel {
-    padding: 6vw 5vw;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* İçeriği dikeyde ortala */
+    justify-content: center;
+    min-width: 320px;
+    box-sizing: border-box;
 }
 
 .content-block {
@@ -71,10 +72,10 @@ body {
 
 /* SAĞ TARAF: ANA GÖRSEL */
 .image-panel {
-    background-image: url('resim/hamur.jpg'); /* GÖRSELİNİZİN YOLUNU BURAYA YAZIN */
+    background-image: url('resim/hamur.jpg'); 
     background-size: cover;
     background-position: center;
-    height: 100%;
+    min-height: 40vh; 
 }
 
 /* --- GERİ DÖN BUTONU --- */
@@ -108,24 +109,20 @@ body {
 
 
 /* --- RESPONSIVE AYARLAR --- */
-@media (max-width: 1024px) {
+/* --- MASAÜSTÜ ve GENİŞ EKRAN DÜZENİ --- */
+@media (min-width: 1025px) {
     body {
-        overflow: auto; /* Mobilde kaydırmaya izin ver */
-        height: auto;
+        /* SADECE GENİŞ EKRANLARDA kaydırmayı engelle */
+        overflow: hidden;
+        height: 100vh;
     }
+
     .page-container {
-        grid-template-columns: 1fr; /* Sütunları alt alta diz */
+        /* SADECE GENİŞ EKRANLARDA iki sütunlu yapıya geç */
+        grid-template-columns: 1fr 1fr;
     }
-    .image-panel {
-        /* Metin bloğunun altına geçsin ve sabit bir yükseklik alsın */
-        order: -1; 
-        height: 50vh; 
-    }
+
     .content-panel {
-        padding: 2rem;
-    }
-    /* Mobilde fontları sabit hale getir */
-    .content-block h1, .content-block p, .value-card h4, .value-card p {
-        font-size: revert;
+        padding: 6vw 5vw;
     }
 }
