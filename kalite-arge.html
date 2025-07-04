@@ -101,16 +101,41 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sliders = document.querySelectorAll('.slider');
-
+            const isTouchDevice = () => {
+                return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            };
+    
             sliders.forEach(slider => {
-                slider.addEventListener('click', () => {
-                    const list = slider.querySelector('.list');
-                    if (list.style.animationPlayState === 'paused') {
-                        list.style.animationPlayState = 'running';
-                    } else {
-                        list.style.animationPlayState = 'paused';
-                    }
-                });
+                const lists = slider.querySelectorAll('.list');
+    
+                if (isTouchDevice()) {
+                    slider.addEventListener('click', () => {
+                        lists.forEach(list => {
+                            const currentState = getComputedStyle(list).animationPlayState;
+                            list.style.animationPlayState = (currentState === 'paused') ? 'running' : 'paused';
+                        });
+                    });
+    
+                } else {
+                    let isPausedByClick = false;
+                    slider.addEventListener('mouseenter', () => {
+                        lists.forEach(list => list.style.animationPlayState = 'paused');
+                    });
+    
+                    slider.addEventListener('mouseleave', () => {
+                        if (!isPausedByClick) {
+                            lists.forEach(list => list.style.animationPlayState = 'running');
+                        }
+                    });
+                    slider.addEventListener('click', () => {
+                        isPausedByClick = !isPausedByClick; 
+                        
+                        if (isPausedByClick) {
+                            lists.forEach(list => list.style.animationPlayState = 'paused');
+                        } else {
+                        }
+                    });
+                }
             });
         });
     </script>
