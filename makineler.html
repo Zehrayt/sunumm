@@ -73,28 +73,30 @@
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Sayfadaki tüm .slider elementlerini bul
             const sliders = document.querySelectorAll('.slider');
     
             sliders.forEach(slider => {
-                // Slider'ın kendisine bir tıklama olayı ekle
-                slider.addEventListener('click', () => {
-                    // Tıklanan slider'ın içindeki .list elementlerini bul
+                // Animasyonu durdurup/başlatan fonksiyon
+                const toggleAnimation = (event) => {
+                    // Dokunma olayının varsayılan davranışını (örn. sayfayı kaydırma) engelle
+                    event.preventDefault(); 
+                    
                     const lists = slider.querySelectorAll('.list');
     
                     lists.forEach(list => {
-                        // Animasyonun mevcut durumunu kontrol et
                         const currentState = getComputedStyle(list).animationPlayState;
     
                         if (currentState === 'paused') {
-                            // Eğer durmuşsa, tekrar başlat
                             list.style.animationPlayState = 'running';
                         } else {
-                            // Eğer çalışıyorsa, durdur
                             list.style.animationPlayState = 'paused';
                         }
                     });
-                });
+                };
+    
+                // Hem masaüstü tıklaması hem de mobil dokunma için olay dinleyicileri ekle
+                slider.addEventListener('click', toggleAnimation);
+                slider.addEventListener('touchend', toggleAnimation); 
             });
         });
     </script>
