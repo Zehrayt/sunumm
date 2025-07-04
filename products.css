@@ -3,66 +3,54 @@
     --text-color: #f0f0f0;
     --primary-color: #3a86ff;
     --font-family: 'Inter', sans-serif;
-    --transition-speed-slow: 0.8s;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     font-family: var(--font-family);
     background-color: var(--bg-color);
     color: var(--text-color);
-    overflow: hidden;
+    overflow-x: hidden; /* Sadece yatay kaydırmayı engelle */
 }
 
 /* --- ANA YAPI --- */
 .showcase {
     position: relative;
-    height: 100vh;
     width: 100%;
     opacity: 0;
-    transition: opacity var(--transition-speed-slow);
+    transition: opacity 0.8s;
 }
-.showcase.is-loaded {
-    opacity: 1;
-}
+.showcase.is-loaded { opacity: 1; }
 
-/* --- ARKA PLAN GEÇİŞLERİ --- */
+/* --- ARKA PLAN --- */
 .background-slider {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
 }
 .background-slider::before {
     content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 1;
 }
 .background-slider img {
-    position: absolute; width: 100%; height: 100%; object-fit: cover;
-    opacity: 0; transform: scale(1.1);
+    position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.1);
     transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
 .background-slider img.is-active { opacity: 1; transform: scale(1); }
 
-
 /* --- İÇERİK LAYOUT --- */
 .showcase-content {
-    position: relative; z-index: 2; height: 100%;
+    position: relative; z-index: 2; min-height: 100vh;
     display: grid;
-    grid-template-columns: 40% 60%; 
+    grid-template-columns: 40% 60%;
     align-items: center;
+    width: 100%;
+    max-width: 1800px; /* Geniş ekranlarda çok yayılmasın */
+    margin: 0 auto;
     padding: 0 4vw;
 }
 
 /* --- SOL TARAF: METİN PANELİ --- */
-.content-panel {
-    padding-right: 4vw;
-}
-.text-rotator {
-    position: relative; height: 220px;
-    transition: height 0.4s ease-in-out; margin-bottom: 2.5rem; overflow: hidden;
-}
+.content-panel { padding-right: 4vw; }
+.text-rotator { position: relative; height: 250px; transition: height 0.4s ease-in-out; margin-bottom: 2.5rem; overflow: hidden; }
 .content-slide {
     position: absolute; inset: 0; opacity: 0; transform: translateY(30px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -71,145 +59,47 @@ body {
 .content-slide h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; }
 .content-slide p { font-size: 1.1rem; line-height: 1.7; max-width: 500px; color: rgba(255, 255, 255, 0.8); }
 
-.button {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: #fff;
-    padding: 12px 28px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-.button:hover {
-    background-color: #1e71f5;
-}
-
-.navigation-arrows { 
-    display: flex; 
-    gap: 1rem; 
-}
+/* NAVİGASYON (Oklar) */
+.navigation-arrows { display: flex; gap: 1rem; }
 .arrow-btn {
     width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 50%; background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%; background-color: rgba(0, 0, 0, 0.3);
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: all 0.3s;
 }
-.arrow-btn svg { 
-    width: 24px; 
-    height: 24px; 
-    fill: var(--text-color); 
-}
-.arrow-btn:hover { 
-    background-color: var(--primary-color); 
-    border-color: var(--primary-color); 
-}
+.arrow-btn svg { width: 24px; height: 24px; fill: var(--text-color); }
+.arrow-btn:hover { background-color: var(--primary-color); border-color: var(--primary-color); }
 
-.timeline-nav {
-    position: absolute; 
-    left: 2vw; 
-    top: 50%; 
-    transform: translateY(-50%);
-    display: flex; 
-    flex-direction: column; 
-    gap: 25px; 
-    z-index: 3;
-}
-.timeline-nav::before {
-    content: '';
-    position: absolute;
-    width: 1px;
-    height: 100%;
-    background-color: var(--border-color);
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    z-index: -1;
-}
-.dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid var(--border-color);
-    background-color: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-.dot.is-active {
-    background-color: #fff;
-    border-color: #fff;
-    transform: scale(1.2);
-}
-
+/* --- SAĞ TARAF: KART SLIDER --- */
 .card-slider {
-    width: 100%; 
-    height: 100%;
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
 }
-.card-slider .swiper {
-    width: 100%; 
-    height: 100%;
-}
+.card-slider .swiper { width: 100%; height: 100%; }
 .swiper-wrapper { align-items: center; }
 .swiper-slide {
-    width: 60%; 
-    aspect-ratio: 4 / 3;
-    max-height: 70vh;
-    border-radius: 16px; overflow: hidden; position: relative;
+    width: 65%; /* Masaüstünde aktif olmayan slaytlar */
+    border-radius: 18px; overflow: hidden;
     transition: all 0.5s ease;
-    filter: brightness(0.6) saturate(0.5);
-    transform: scale(0.85);
+    filter: brightness(0.6);
+    transform: scale(0.9);
 }
 .swiper-slide-active {
-    width: 85%; /* Aktif slayt daha büyük */
-    filter: brightness(1) saturate(1);
+    width: 85%; /* Masaüstünde aktif slayt */
+    filter: brightness(1);
     transform: scale(1);
 }
-.swiper-slide img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-}
+.swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-.card-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1.5rem;
-    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-    color: #fff;
-}
-.card-content .title {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-.card-content .subtitle {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
+/* --- SABİT FOOTER --- */
 .site-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 20; 
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    padding: 1.5rem 5%;
-    background: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
-    transition: opacity 0.5s;
-    opacity: 0; 
+    position: fixed; bottom: 0; left: 0; width: 100%; z-index: 20;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4vw;
+    background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+    opacity: 0; transition: opacity 0.5s;
 }
-
-
-.showcase.is-loaded + .site-footer {
-    opacity: 1;
-}
+.showcase.is-loaded ~ .site-footer { opacity: 1; }
 
 .footer-buttons {
     display: flex;
@@ -277,25 +167,26 @@ body {
     body {
         /* Mobilde kaydırmaya izin ver */
         overflow-y: auto;
-        height: auto;
+        overflow-x: hidden;
     }
-
-    .showcase {
+    .showcase, .showcase-content {
         height: auto; /* Yükseklik içeriğe göre ayarlanacak */
     }
-
     .showcase-content {
         display: flex;
         flex-direction: column; /* Her şeyi alt alta diz */
-        height: auto;
         padding: 0;
     }
 
     .slider-pane {
         order: 1; /* Slider üste gelsin */
         width: 100%;
-        height: 60vh; /* Ekranın %60'ını kaplasın */
-        padding: 80px 0 2rem 0; /* Üst ve alt boşluklar */
+        height: 55vh; /* Yüksekliği biraz azalttım */
+        padding: 80px 0 2rem 0;
+    }
+    
+    .card-slider, .card-slider .swiper {
+        height: 100%;
     }
 
     .content-panel {
@@ -305,14 +196,14 @@ body {
         width: 100%;
     }
     
-    .timeline-nav { display: none; } /* Mobilde dikey navigasyonu gizle */
+    .timeline-nav { display: none; }
     .navigation-arrows { justify-content: center; }
 
     /* Mobil slayt görünümü */
     .swiper-slide, .swiper-slide-active {
-        width: 75% !important; /* Tüm slaytlar aynı genişlikte olsun */
-        height: auto !important; /* Yükseklik aspect-ratio'ya göre ayarlanacak */
-        aspect-ratio: 4 / 3; /* En-boy oranını koru */
+        width: 75% !important; /* Tüm slaytlar aynı genişlikte */
+        height: auto !important; /* Yükseklik aspect-ratio'ya göre */
+        aspect-ratio: 4 / 3;
         filter: none !important;
         transform: scale(1) !important;
     }
