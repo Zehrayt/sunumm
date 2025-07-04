@@ -1,12 +1,10 @@
-/* --- TEMEL AYARLAR VE TAM EKRAN DÜZENİ --- */
+/* --- TEMEL AYARLAR --- */
 :root {
     --bg-color: #f4f7f6;
     --text-color: #2c3e50;
     --primary-color: #3a86ff;
     --font-family: 'Inter', sans-serif;
 }
-
-/* YERİNE BUNU YAPIŞTIRIN */
 
 body {
     margin: 0;
@@ -15,114 +13,116 @@ body {
     font-family: var(--font-family);
 }
 
+/* --- ANA KONTEYNER (Varsayılan olarak mobil için tek sütun) --- */
 .page-container {
-    display: grid;
-    grid-template-columns: 1fr; /* Varsayılan olarak tek sütun */
+    display: flex;
+    flex-direction: column;
     width: 100%;
     min-height: 100vh;
 }
 
-/* SOL TARAF: METİN İÇERİĞİ */
+/* --- SAĞ/ÜST TARAF: ANA GÖRSEL --- */
+.image-panel {
+    background-image: url('resim/hakkimizda-gorsel.jpg');
+    background-size: cover;
+    background-position: center;
+    /* Mobilde ekranın %40'ı kadar bir yükseklik */
+    height: 40vh;
+    flex-shrink: 0; /* Küçülmesini engelle */
+}
+
+/* --- SOL/ALT TARAF: METİN İÇERİĞİ --- */
 .content-panel {
-    padding: 2rem;
+    padding: 2rem 1.5rem; /* Mobil için boşluklar */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 320px;
     box-sizing: border-box;
 }
 
 .content-block {
-    margin-bottom: 5vh;
+    margin-bottom: 2.5rem;
+    max-width: 650px;
 }
 
 .content-block h1 {
-    font-size: 3.5vw;
-    font-weight: 800; /* Daha güçlü bir başlık */
+    font-size: 2rem; /* Mobil için uygun başlık */
+    font-weight: 800;
     line-height: 1.2;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .content-block p {
-    font-size: 1.1vw;
+    font-size: 1rem;
     line-height: 1.7;
-    max-width: 90%;
 }
 
 /* Değerler Bölümü */
 .values-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 2x2 grid */
-    gap: 2rem 1.5rem;
+    /* Mobilde 2 sütunlu esnek grid */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
     border-top: 1px solid #e0e0e0;
-    padding-top: 2rem;
+    padding-top: 1.5rem;
+    max-width: 650px;
 }
 
 .value-card h4 {
-    font-size: 1.2vw;
+    font-size: 1.1rem;
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
 
 .value-card p {
-    font-size: 0.9vw;
+    font-size: 0.9rem;
     color: #7f8c8d;
     line-height: 1.5;
-}
-
-/* SAĞ TARAF: ANA GÖRSEL */
-.image-panel {
-    background-image: url('resim/hamur.jpg'); 
-    background-size: cover;
-    background-position: center;
-    min-height: 40vh; 
 }
 
 /* --- GERİ DÖN BUTONU --- */
 .back-to-home {
     position: fixed;
-    top: 30px;
-    left: 30px;
+    top: 20px;
+    left: 20px;
     z-index: 50;
-    width: 44px;
-    height: 44px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border: 1px solid transparent;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 44px; height: 44px; background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid transparent; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     transition: all 0.3s;
 }
-
-.back-to-home svg {
-    fill: #000;
-}
-
-.back-to-home:hover {
-    background-color: var(--primary-color);
-}
-.back-to-home:hover svg {
-    fill: #fff;
-}
+.back-to-home svg { fill: #000; }
+.back-to-home:hover { background-color: var(--primary-color); }
+.back-to-home:hover svg { fill: #fff; }
 
 
-/* --- RESPONSIVE AYARLAR --- */
-/* --- MASAÜSTÜ ve GENİŞ EKRAN DÜZENİ --- */
+/*
+============================================================
+  MASAÜSTÜ DÜZENİ (1025px ve üzeri)
+============================================================
+*/
 @media (min-width: 1025px) {
     body {
-        /* SADECE GENİŞ EKRANLARDA kaydırmayı engelle */
-        overflow: hidden;
+        overflow: hidden; /* Geniş ekranlarda kaydırmayı engelle */
+    }
+    .page-container {
+        flex-direction: row; /* Sütunları yan yana getir */
         height: 100vh;
     }
-
-    .page-container {
-        /* SADECE GENİŞ EKRANLARDA iki sütunlu yapıya geç */
-        grid-template-columns: 1fr 1fr;
+    .image-panel {
+        flex-basis: 50%; /* Resim alanı %50 genişlikte */
+        height: 100%;
     }
-
     .content-panel {
-        padding: 6vw 5vw;
+        flex-basis: 50%; /* Metin alanı %50 genişlikte */
+        padding: 4vw 5vw;
+        overflow-y: auto; /* Metin sığmazsa sadece bu panel kaydırılsın */
     }
+
+    /* Yazı boyutlarını masaüstü için büyüt */
+    .content-block h1 { font-size: 3.5rem; }
+    .content-block p { font-size: 1.1rem; }
+    .values-grid { grid-template-columns: 1fr 1fr; } /* Değerleri 2x2 yap */
+    .value-card h4 { font-size: 1.3rem; }
+    .value-card p { font-size: 1rem; }
 }
