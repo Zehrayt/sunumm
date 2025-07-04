@@ -28,40 +28,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const bgImg = document.createElement('img');
         bgImg.src = data.backgroundImage;
         bgSlider.appendChild(bgImg);
-
         const textSlide = document.createElement('article');
         textSlide.classList.add('content-slide');
         textSlide.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`;
         textRotator.appendChild(textSlide);
-
         const swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.innerHTML = `<img src="${data.cardImage}" alt="${data.title}">`;
         swiperWrapper.appendChild(swiperSlide);
-        
-        const dot = document.createElement('button');
-        dot.classList.add('dot');
-        dot.dataset.index = index;
-        timelineNav.appendChild(dot);
     });
     
     const bgImages = document.querySelectorAll('.background-slider img');
     const textSlides = document.querySelectorAll('.content-slide');
-    const navDots = document.querySelectorAll('.dot');
 
     const swiper = new Swiper('.swiper', {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        loop: true,
-        coverflowEffect: {
-            rotate: 0,
-            stretch: 50,
-            depth: 250,
-            modifier: 1,
-            slideShadows: false,
+        effect: 'fade', // Efekti "solma" olarak değiştir
+        fadeEffect: {
+            crossFade: true // Geçişi pürüzsüzleştir
         },
+        loop: true,
         navigation: {
             nextEl: '.next-btn',
             prevEl: '.prev-btn',
@@ -75,46 +60,17 @@ document.addEventListener('DOMContentLoaded', () => {
             },
         },
     });
-    
-    navDots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            const index = parseInt(dot.dataset.index, 10);
-            swiper.slideToLoop(index);
-        });
-    });
+
+    let currentIndex = 0;
 
     function updateContent(index) {
-        if (currentIndex === index) return;
-        
+        if (currentIndex === index || textSlides.length === 0) return;
         textSlides[currentIndex].classList.remove('is-active');
         bgImages[currentIndex].classList.remove('is-active');
-        navDots[currentIndex].classList.remove('is-active');
-
         textSlides[index].classList.add('is-active');
         bgImages[index].classList.add('is-active');
-        navDots[index].classList.add('is-active');
-
         const activeTextSlide = textSlides[index];
         textRotator.style.height = `${activeTextSlide.scrollHeight}px`;
-        
         currentIndex = index;
     }
-
-    function initialize(swiperInstance) {
-        if (bgImages.length > 0) bgImages[swiperInstance.realIndex].classList.add('is-active');
-        if (textSlides.length > 0) {
-            textSlides[swiperInstance.realIndex].classList.add('is-active');
-            textRotator.style.height = `${textSlides[swiperInstance.realIndex].scrollHeight}px`;
-        }
-        if (navDots.length > 0) navDots[swiperInstance.realIndex].classList.add('is-active');
-        
-        showcase.classList.add('is-loaded');
-        currentIndex = swiperInstance.realIndex;
-    }
-    
-    window.addEventListener('resize', () => {
-        if (textSlides[currentIndex]) {
-            textRotator.style.height = `${textSlides[currentIndex].scrollHeight}px`;
-        }
-    });
 });
