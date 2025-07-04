@@ -22,16 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    let currentIndex = 0;
-
-    slideData.forEach((data, index) => {
+   slideData.forEach(data => {
         const bgImg = document.createElement('img');
         bgImg.src = data.backgroundImage;
         bgSlider.appendChild(bgImg);
+
         const textSlide = document.createElement('article');
         textSlide.classList.add('content-slide');
         textSlide.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`;
         textRotator.appendChild(textSlide);
+
         const swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.innerHTML = `<img src="${data.cardImage}" alt="${data.title}">`;
@@ -40,21 +40,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const bgImages = document.querySelectorAll('.background-slider img');
     const textSlides = document.querySelectorAll('.content-slide');
+    let currentIndex = 0;
 
     const swiper = new Swiper('.swiper', {
-        effect: 'fade', // Efekti "solma" olarak değiştir
-        fadeEffect: {
-            crossFade: true // Geçişi pürüzsüzleştir
-        },
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
         loop: true,
         navigation: {
             nextEl: '.next-btn',
             prevEl: '.prev-btn',
         },
         on: {
+            // Swiper hazır olduğunda ilk içeriği göster
             init: function () {
-                initialize(this);
+                updateContent(this.realIndex);
             },
+            // Slayt değiştiğinde içeriği güncelle
             slideChange: function () {
                 updateContent(this.realIndex);
             },
@@ -64,13 +65,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
 
     function updateContent(index) {
-        if (currentIndex === index || textSlides.length === 0) return;
-        textSlides[currentIndex].classList.remove('is-active');
-        bgImages[currentIndex].classList.remove('is-active');
+        if (textSlides.length === 0) return;
+
+        // Önceki aktif sınıfları temizle
+        if (textSlides[currentIndex]) {
+             textSlides[currentIndex].classList.remove('is-active');
+             bgImages[currentIndex].classList.remove('is-active');
+        }
+       
+        // Yeni aktif sınıfları ekle
         textSlides[index].classList.add('is-active');
         bgImages[index].classList.add('is-active');
+        
+        // Metin alanının yüksekliğini ayarla
         const activeTextSlide = textSlides[index];
         textRotator.style.height = `${activeTextSlide.scrollHeight}px`;
+        
+        // Mevcut index'i güncelle
         currentIndex = index;
     }
 });
