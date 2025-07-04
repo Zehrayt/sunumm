@@ -1,9 +1,9 @@
 :root {
     --bg-color: #1a1a1a;
     --text-color: #f0f0f0;
-    --primary-color: #3a86ff; 
-    --card-bg: rgba(30, 30, 30, 0.3); 
-    --card-border: rgba(255, 255, 255, 0.15); 
+    --primary-color: #3a86ff;
+    --card-bg: rgba(30, 30, 30, 0.3);
+    --card-border: rgba(255, 255, 255, 0.15);
     --font-family: 'Inter', sans-serif;
 }
 
@@ -17,84 +17,61 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    
+    padding: 2rem 0; /* İçeriğin ekrana yapışmasını engellemek için */
 }
 
 .portal-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('resim/kentkapak.jpg'); 
-    background-size: cover;
-    background-position: center;
-    filter: blur(8px) brightness(0.6); 
-    transform: scale(1.1);
-    z-index: -1;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('https://i.ibb.co/3W6sM7x/product2.png'); 
+    background-size: cover; background-position: center;
+    filter: blur(8px) brightness(0.6);
+    transform: scale(1.1); z-index: -1;
 }
 
 .portal-container {
-    width: 90%;
-    max-width: 1300px; 
-    text-align: center;
-    padding: 2rem;
+    width: 90%; max-width: 1300px; text-align: center;
 }
 
-.portal-header {
-    margin-bottom: 3rem;
-}
+.portal-header { margin-bottom: 3rem; }
 
 .portal-header h1 {
-    font-size: 3.8rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
+    font-size: 3.8rem; font-weight: 700; margin-bottom: 0.5rem;
 }
 
 .portal-subtitle {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none; 
-    transition: color 0.3s;
+    font-size: 1.2rem; color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.3s;
 }
 
-.portal-subtitle:hover {
-    color: #fff; 
-}
+.portal-subtitle:hover { color: #fff; }
 
 .portal-nav {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); ;
+    /* Masaüstü için 3 sütunlu yapı */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 1.5rem;
 }
 
 .nav-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px; 
-    padding: 2.5rem 2rem;
-    text-decoration: none;
-    color: var(--text-color);
-    transition: all 0.3s ease;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
+    padding: 2.5rem 2rem; text-decoration: none; color: var(--text-color); transition: all 0.3s ease;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .nav-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px); border-color: rgba(255, 255, 255, 0.4); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
-.nav-card h2 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-}
+.nav-card h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.nav-card p { color: rgba(255, 255, 255, 0.7); }
 
-.nav-card p {
-    color: rgba(255, 255, 255, 0.7);
-}
+/*
+============================================================
+  MOBİL UYUMLULUK DÜZENLEMELERİ
+============================================================
+*/
+
+/* TABLET (Örn: 1024px ve altı) */
 @media (max-width: 1024px) {
     .portal-nav {
         /* Tabletlerde 2 sütun */
@@ -103,17 +80,22 @@ body {
     .portal-header h1 { font-size: 3rem; }
 }
 
+/* TELEFON (Örn: 767px ve altı) */
 @media (max-width: 767px) {
     body {
-        overflow-y: auto;
+        /* Mobilde içeriği yukarıdan başlat ve kaydırmaya izin ver */
         align-items: flex-start;
-        padding-top: 4rem; 
+        overflow-y: auto;
     }
     .portal-container {
-        padding: 1rem;
+        padding-top: 4rem; /* İçeriğin en üstten başlaması için */
+        padding-bottom: 4rem;
     }
     .portal-header h1 { font-size: 2.5rem; }
+
+    /* YENİ VE KRİTİK DÜZELTME */
     .portal-nav {
+        /* Telefonda TEK SÜTUN */
         grid-template-columns: 1fr;
     }
 }
