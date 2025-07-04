@@ -18,7 +18,7 @@
     <main class="page-container">
         <!-- Sertifikalar Bölümü -->
         <h2 class="section-title">Sertifikalarımız</h2>
-        <section class="documents-grid certificate-grid"> <!-- YENİ: Ek sınıf adı -->
+        <section class="documents-grid certificate-grid"> 
             <!-- Satır 1 -->
             <a href="belge/İSO 9001.pdf" target="_blank" class="document-card minimal-card">
                 <h3>ISO 9001:2015</h3>
@@ -58,11 +58,10 @@
         </section>
     </main>
 
-    <!-- Sonsuz Dönen Laboratuvar Resimleri Şeridi -->
     <footer class="slider-section">
         <div class="slider">
             <div class="list">
-                <!-- Lab Resimleri -->
+                
                 <div class="item"><img src="deneyler/den.jpg" alt="Lab 1"></div>
                 <div class="item"><img src="deneyler/den1.jpg" alt="Lab 2"></div>
                 <div class="item"><img src="deneyler/den2.jpg" alt="Lab 3"></div>
@@ -95,12 +94,25 @@
         </div>
     </footer>
 
-    <!-- Video için Popup (Modal) Penceresi -->
+    
     <div id="video-modal" class="video-modal">
-        <!-- ... (modal içeriği aynı) ... -->
+        
     </div>
     <script>
-        // ... (JavaScript kodu aynı) ...
+        document.addEventListener('DOMContentLoaded', () => {
+            const sliders = document.querySelectorAll('.slider');
+
+            sliders.forEach(slider => {
+                slider.addEventListener('click', () => {
+                    const list = slider.querySelector('.list');
+                    if (list.style.animationPlayState === 'paused') {
+                        list.style.animationPlayState = 'running';
+                    } else {
+                        list.style.animationPlayState = 'paused';
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
