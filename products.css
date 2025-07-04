@@ -1,5 +1,4 @@
-/* --- products.css --- */
-
+/* --- TEMEL AYARLAR --- */
 :root {
     --bg-color: #1a1a1a;
     --text-color: #f0f0f0;
@@ -13,7 +12,11 @@ body {
     color: var(--text-color);
     overflow-x: hidden;
 }
-.showcase { position: relative; width: 100%; opacity: 0; transition: opacity 0.8s; }
+
+/* --- ANA YAPI --- */
+.showcase {
+    position: relative; width: 100%; opacity: 0; transition: opacity 0.8s;
+}
 .showcase.is-loaded { opacity: 1; }
 .background-slider {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -27,15 +30,13 @@ body {
 }
 .background-slider img.is-active { opacity: 1; transform: scale(1); }
 
-/* ORTAK STİLLER */
-.content-panel { display: flex; flex-direction: column; justify-content: center; position: relative; }
-.text-rotator { position: relative; overflow: hidden; }
+/* --- ORTAK STİLLER --- */
+.text-rotator { position: relative; overflow: hidden; height: 250px; }
 .content-slide {
     position: absolute; inset: 0; opacity: 0; transform: translateY(30px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 .content-slide.is-active { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-.content-slide p { line-height: 1.7; color: rgba(255, 255, 255, 0.8); }
 .navigation-arrows { display: flex; gap: 1rem; margin-top: 2.5rem; }
 .arrow-btn {
     width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.2);
@@ -49,15 +50,18 @@ body {
 .swiper-wrapper { align-items: center; }
 .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-/* MASAÜSTÜ (1025px ve üzeri) */
+/*
+================================================================
+  MASAÜSTÜ DÜZENİ (1025px ve üzeri)
+================================================================
+*/
 @media (min-width: 1025px) {
     body { overflow: hidden; }
     .showcase-content {
         height: 100vh; display: grid; grid-template-columns: 40% 60%;
         align-items: center; max-width: 1800px; margin: 0 auto; padding: 0 4vw;
     }
-    .content-panel { padding-left: 4vw; height: 100%; }
-    .text-rotator { height: 250px; }
+    .content-panel { display: flex; flex-direction: column; justify-content: center; position: relative; padding-left: 4vw; height: 100%; }
     .content-slide h1 { font-size: 3.5rem; }
     .content-slide p { font-size: 1.1rem; max-width: 500px; }
     .timeline-nav {
@@ -76,7 +80,11 @@ body {
     .site-footer { position: fixed; }
 }
 
-/* MOBİL (1024px ve altı) */
+/*
+================================================================
+  MOBİL DÜZENİ (1024px ve altı)
+================================================================
+*/
 @media (max-width: 1024px) {
     body { overflow-y: auto; }
     .showcase-content { display: flex; flex-direction: column; padding: 0; }
@@ -94,7 +102,7 @@ body {
     .site-footer { position: static; flex-direction: column-reverse; gap: 1.5rem; background: var(--bg-color); padding: 2rem; }
 }
 
-/* FOOTER VE GERİ DÖN BUTONU (Ortak) */
+/* --- ORTAK STILLER (Footer, Butonlar vb.) --- */
 .site-footer {
     bottom: 0; left: 0; width: 100%; z-index: 20;
     display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4vw;
