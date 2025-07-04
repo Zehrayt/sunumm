@@ -235,102 +235,129 @@ body {
 }
 
 /* --- RESPONSIVE TASARIM --- */
+/* --- RESPONSIVE TASARIM: TABLET (1024px ve altı) --- */
 @media (max-width: 1024px) {
+    /* Ana sayfa yapısını dikey (kolon) düzene geçiriyoruz */
     .showcase-content {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-        padding: 5% 5% 0;
+        /* Grid yerine Flexbox kullanarak daha iyi kontrol sağlıyoruz */
+        display: flex;
+        flex-direction: column; /* Öğeleri alt alta dizer */
+        justify-content: center; /* Dikeyde ortalar */
+        align-items: center;     /* Yatayda ortalar */
+        padding: 5vh 5% 150px; /* Üstten ve alttan boşluk (alttaki boşluk footer için) */
+        gap: 1rem; /* Slider ile metin arasına boşluk koyar */
     }
+
+    /* 1. ELEMAN: Kart Slider'ı (Görsel) */
+    .card-slider {
+        order: 1; /* Görseli en üste alır */
+        width: 100%;
+        max-width: 500px; /* Tablette çok genişlemesini önler */
+        margin-bottom: 0;
+    }
+
+    /* Slider'ın yüksekliğini ve kart genişliğini ekran boyutuna göre ayarla */
+    .card-slider .swiper {
+        height: auto; /* Yükseklik en-boy oranına göre otomatik olsun */
+    }
+    .swiper-slide {
+        width: 70vw; /* Ekran genişliğinin %70'i kadar olsun */
+        max-width: 450px;
+        height: auto; /* Bu satır en-boy oranının çalışması için önemli */
+    }
+
+    /* 2. ELEMAN: Metin Paneli */
     .content-panel {
-        order: 2;
+        order: 2; /* Metin panelini slider'ın altına alır */
         padding: 0;
+        width: 100%;
+        max-width: 550px; /* Metinlerin okunabilirliğini artırır */
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    .text-rotator { height: 220px; }
-    .content-slide h1 { font-size: 3rem; }
-    .card-slider {
-        order: 1;
-        margin-bottom: 2rem;
+
+    /* Metinlerin ve başlığın boyutunu düzenle */
+    .text-rotator {
+        height: 180px; /* Yüksekliği biraz düşürelim, JS yine de ayarlayacak */
+        margin-bottom: 1.5rem;
     }
+    .content-slide h1 {
+        font-size: 3rem;
+    }
+    .content-slide p {
+        max-width: 100%; /* Metin kutuya tam yayılsın */
+    }
+
+    /* 3. ELEMAN: Navigasyon okları metnin altında kalacak (doğru yerleşim) */
+    .navigation-arrows {
+        margin-top: 1rem;
+    }
+
+    /* Sol taraftaki dikey navigasyonu (noktaları) gizle */
     .timeline-nav {
-        display: none; /* Mobilde gizle, veya yatay bir tasarıma çevir */
+        display: none;
+    }
+    
+    /* Geri dönme butonunu daha uygun bir yere al */
+    .back-to-home {
+        top: 20px;
+        left: 20px;
     }
 }
+
+/* --- RESPONSIVE TASARIM: TELEFON (767px ve altı) --- */
 @media (max-width: 767px) {
-    .content-slide h1 { font-size: 2.2rem; }
-    .swiper-slide { width: 220px; height: 320px; }
-    .card-slider .swiper { height: 360px; }
-}
+    /* Telefonlar için genel boşlukları ve boyutları daha da küçültelim */
+    .showcase-content {
+        padding: 5vh 5% 180px; /* Footer daha fazla yer kaplayacağı için alttaki boşluğu artır */
+        gap: 0.5rem;
+    }
 
-/* --- SABİT ALT BİLGİ (FOOTER) --- */
-.site-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 20; /* Diğer elementlerin üzerinde kalmasını sağlar */
+    /* Kart görselinin genişliğini ayarla */
+    .swiper-slide {
+        width: 85vw; /* Ekran genişliğine daha yakın bir boyut */
+        max-width: 350px;
+    }
     
-    display: flex;
-    justify-content: space-between; /* Öğeleri iki uca yaslar */
-    align-items: center;
-    padding: 1.5rem 5%;
+    /* Başlık ve metin fontlarını küçült */
+    .content-slide h1 {
+        font-size: 2.2rem;
+    }
+     .content-slide p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .text-rotator {
+        height: 190px; /* Metin kaymasına göre ayarlandı */
+        margin-bottom: 1rem;
+    }
     
-    /* Arka planla daha iyi bütünleşmesi için hafif bir gölge */
-    background: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
-    
-    transition: opacity 0.5s;
-    opacity: 0; /* Sayfa yüklenirken gizli olsun */
-}
-
-/* Sayfa yüklendiğinde footer'ı görünür yap */
-.showcase.is-loaded + .site-footer {
-    opacity: 1;
-}
-
-.footer-buttons {
-    display: flex;
-    gap: 1rem; /* Butonlar arası boşluk */
-}
-
-/* Mevcut buton stilimizi kullanıyoruz */
-.button {
-    /* İsteğe bağlı olarak boyutu küçültebiliriz */
-    padding: 10px 24px;
-    font-size: 0.9rem;
-}
-
-/* İkinci buton için farklı bir stil (dışı çizgili) */
-.button.button-secondary {
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-}
-
-.button.button-secondary:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-}
-
-.copyright-text {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    /* Butonlarla karışmaması için küçük bir kenar boşluğu */
-    margin-right: 2rem; 
-}
-
-/* --- FOOTER İÇİN RESPONSIVE AYARLAR --- */
-@media (max-width: 767px) {
+    /* 4. ELEMAN: Footer'ı yeniden düzenle */
     .site-footer {
-        flex-direction: column-reverse; /* Butonlar üste, yazı alta gelsin */
+        flex-direction: column; /* Butonları ve yazıyı alt alta getir */
         justify-content: center;
-        gap: 1.5rem;
+        gap: 1.2rem;
         padding: 1.5rem;
-        background: rgba(0,0,0,0.5); /* Mobilde daha belirgin arka plan */
+        background: rgba(0,0,0,0.6); /* Mobilde arka planı daha belirgin yap */
+        text-align: center;
     }
+    
+    .footer-buttons {
+        flex-direction: column; /* Butonları da alt alta diz */
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .button {
+        width: 100%; /* Butonlar tam genişlikte olsun */
+    }
+
     .copyright-text {
         margin-right: 0;
+        order: 2; /* Telif hakkı yazısı en alta gelsin */
     }
 }
 
