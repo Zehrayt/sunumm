@@ -72,58 +72,45 @@
         </section>
     </main>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const sliders = document.querySelectorAll('.slider');
-
-        // Kullanıcının dokunmatik bir cihaz mı kullandığını kontrol et
-        const isTouchDevice = () => {
-            return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        };
-
-        sliders.forEach(slider => {
-            const lists = slider.querySelectorAll('.list');
-
-            if (isTouchDevice()) {
-                // --- SADECE MOBİL CİHAZLAR İÇİN ---
-                // Sadece dokunarak durdur/başlat
-                slider.addEventListener('click', () => { // Mobilde dokunma 'click' olarak da algılanır
-                    lists.forEach(list => {
-                        const currentState = getComputedStyle(list).animationPlayState;
-                        list.style.animationPlayState = (currentState === 'paused') ? 'running' : 'paused';
+        document.addEventListener('DOMContentLoaded', () => {
+            const sliders = document.querySelectorAll('.slider');
+            const isTouchDevice = () => {
+                return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            };
+    
+            sliders.forEach(slider => {
+                const lists = slider.querySelectorAll('.list');
+    
+                if (isTouchDevice()) {
+                    slider.addEventListener('click', () => {
+                        lists.forEach(list => {
+                            const currentState = getComputedStyle(list).animationPlayState;
+                            list.style.animationPlayState = (currentState === 'paused') ? 'running' : 'paused';
+                        });
                     });
-                });
-
-            } else {
-                // --- SADECE MASAÜSTÜ CİHAZLAR İÇİN ---
-                let isPausedByClick = false;
-
-                // 1. Fareyle üzerine gelme/ayrılma
-                slider.addEventListener('mouseenter', () => {
-                    lists.forEach(list => list.style.animationPlayState = 'paused');
-                });
-
-                slider.addEventListener('mouseleave', () => {
-                    // Sadece tıklama ile durdurulmadıysa animasyonu başlat
-                    if (!isPausedByClick) {
-                        lists.forEach(list => list.style.animationPlayState = 'running');
-                    }
-                });
-
-                // 2. Tıklayarak kalıcı durdurma/başlatma
-                slider.addEventListener('click', () => {
-                    isPausedByClick = !isPausedByClick; // Durumu tersine çevir
-                    
-                    if (isPausedByClick) {
+    
+                } else {
+                    let isPausedByClick = false;
+                    slider.addEventListener('mouseenter', () => {
                         lists.forEach(list => list.style.animationPlayState = 'paused');
-                    } else {
-                        // Eğer fare hala üzerindeyse durmaya devam etmeli, değilse başlamalı.
-                        // mouseleave olayı bu durumu zaten yöneteceği için burada sadece durumu değiştiriyoruz.
-                        // Kullanıcı fareyi çektiğinde, isPausedByClick false olduğu için animasyon başlayacak.
-                    }
-                });
-            }
+                    });
+    
+                    slider.addEventListener('mouseleave', () => {
+                        if (!isPausedByClick) {
+                            lists.forEach(list => list.style.animationPlayState = 'running');
+                        }
+                    });
+                    slider.addEventListener('click', () => {
+                        isPausedByClick = !isPausedByClick; 
+                        
+                        if (isPausedByClick) {
+                            lists.forEach(list => list.style.animationPlayState = 'paused');
+                        } else {
+                        }
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
