@@ -1,7 +1,6 @@
-// --- products.js ---
-
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- SLAYT VERİLERİ ---
     const slideData = [
         { title: "Kompozit Izgara", description: "Yüksek dayanımlı kompozit malzemeden üretilmiş, korozyona ve ağır yüklere karşı maksimum direnç gösteren yenilikçi ızgara çözümü.", cardImage: "resim/60x80.png", backgroundImage: "resim/ap7.png" },
         { title: "Rögar Kapağı", description: "Kent estetiğine uygun, sessiz ve güvenli bir kullanım sunan, en son teknoloji ile üretilmiş yeni nesil rögar kapağı.", cardImage: "resim/100x100.png", backgroundImage: "resim/ap8.png" },
@@ -13,45 +12,56 @@ document.addEventListener('DOMContentLoaded', () => {
         { title: "Geniş Rögar Kapağı", description: "Farklı projelere kolayca uyum sağlayan, montajı pratik ve esnek modüler altyapı elemanları.", cardImage: "resim/80x80.png", backgroundImage: "resim/ap6.png" }
     ];
 
+    // --- HTML ELEMENTLERİNİ SEÇME ---
     const showcase = document.querySelector('.showcase');
     const bgSlider = document.querySelector('.background-slider');
     const textRotator = document.querySelector('.text-rotator');
     const swiperWrapper = document.querySelector('.swiper-wrapper');
     const timelineNav = document.querySelector('.timeline-nav');
     
+    // Hata kontrolü
     if (!showcase || !bgSlider || !textRotator || !swiperWrapper || !timelineNav) {
-        console.error('Gerekli HTML elemanlarından biri bulunamadı!');
+        console.error('HTML İskeleti Hatalı! Gerekli elemanlardan biri bulunamadı. Lütfen products.html dosyasını kontrol edin.');
         return;
     }
 
-    // Değişken SADECE BİR KEZ burada tanımlanıyor
+    // --- DEĞİŞKEN TANIMLAMA (SADECE BİR KEZ) ---
     let currentIndex = 0;
 
+    // --- İÇERİĞİ DİNAMİK OLARAK OLUŞTURMA ---
     slideData.forEach((data, index) => {
+        // Arka plan resmi oluştur
         const bgImg = document.createElement('img');
         bgImg.src = data.backgroundImage;
         bgSlider.appendChild(bgImg);
+        
+        // Metin slaytı oluştur
         const textSlide = document.createElement('article');
         textSlide.classList.add('content-slide');
         textSlide.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`;
         textRotator.appendChild(textSlide);
+        
+        // Ürün kartı slaytı oluştur
         const swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.innerHTML = `<img src="${data.cardImage}" alt="${data.title}">`;
         swiperWrapper.appendChild(swiperSlide);
+        
+        // Navigasyon noktası oluştur (masaüstü için)
         const dot = document.createElement('button');
         dot.classList.add('dot');
         dot.dataset.index = index;
         timelineNav.appendChild(dot);
     });
     
+    // Oluşturulan elementleri tekrar seç
     const bgImages = document.querySelectorAll('.background-slider img');
     const textSlides = document.querySelectorAll('.content-slide');
     const navDots = document.querySelectorAll('.dot');
 
-    // Swiper'ı COVERFLOW efektiyle başlat
+    // --- SWIPER KÜTÜPHANESİNİ BAŞLATMA ---
     const swiper = new Swiper('.swiper', {
-        effect: 'coverflow',
+        effect: 'coverflow', // Masaüstü için Coverflow efekti
         grabCursor: true,
         centeredSlides: true,
         slidesPerView: 'auto',
@@ -68,15 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
             prevEl: '.prev-btn',
         },
         on: {
-            init: function () {
-                initialize(this);
-            },
-            slideChange: function () {
-                updateContent(this.realIndex);
-            },
+            // Swiper hazır olduğunda ve slayt değiştiğinde içeriği güncelle
+            init: function () { updateContent(this.realIndex); },
+            slideChange: function () { updateContent(this.realIndex); },
         },
     });
     
+    // Nokta navigasyonuna tıklama olayı
     navDots.forEach(dot => {
         dot.addEventListener('click', () => {
             const index = parseInt(dot.dataset.index, 10);
@@ -84,31 +92,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- İÇERİK GÜNCELLEME FONKSİYONU ---
     function updateContent(index) {
-        if (currentIndex === index || !textSlides[currentIndex]) return;
+        if (currentIndex === index && showcase.classList.contains('is-loaded')) return; // İlk yükleme hariç aynıysa işlem yapma
         
-        textSlides[currentIndex].classList.remove('is-active');
-        bgImages[currentIndex].classList.remove('is-active');
-        navDots[currentIndex].classList.remove('is-active');
+        // Önceki aktif elemanları temizle
+        if (bgImages[currentIndex]) bgImages[currentIndex].classList.remove('is-active');
+        if (textSlides[currentIndex]) textSlides[currentIndex].classList.remove('is-active');
+        if (navDots[currentIndex]) navDots[currentIndex].classList.remove('is-active');
 
-        textSlides[index].classList.add('is-active');
-        bgImages[index].classList.add('is-active');
-        navDots[index].classList.add('is-active');
-
-        const activeTextSlide = textSlides[index];
-        textRotator.style.height = `${activeTextSlide.scrollHeight}px`;
-        
-        currentIndex = index;
-    }
-
-    function initialize(swiperInstance) {
-        if (bgImages.length > 0) bgImages[swiperInstance.realIndex].classList.add('is-active');
-        if (textSlides.length > 0) {
-            textSlides[swiperInstance.realIndex].classList.add('is-active');
-            textRotator.style.height = `${textSlides[swiperInstance.realIndex].scrollHeight}px`;
+        // Yeni elemanları aktif et
+        if (bgImages[index]) bgImages[index].classList.add('is-active');
+        if (textSlides[index]) {
+            textSlides[index].classList.add('is-active');
+            // Yüksekliği ayarla
+            textRotator.style.height = `${textSlides[index].scrollHeight}px`;
         }
-        if (navDots.length > 0) navDots[swiperInstance.realIndex].classList.add('is-active');
-        showcase.classList.add('is-loaded');
-        currentIndex = swiperInstance.realIndex;
+        if (navDots[index]) navDots[index].classList.add('is-active');
+        
+        // Mevcut index'i güncelle
+        currentIndex = index;
+        
+        // Yüklenme animasyonunu tetikle
+        if (!showcase.classList.contains('is-loaded')) {
+             showcase.classList.add('is-loaded');
+        }
     }
 });
