@@ -1,3 +1,5 @@
+// --- products.js ---
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const slideData = [
@@ -22,66 +24,91 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-   slideData.forEach(data => {
+    // Değişken SADECE BİR KEZ burada tanımlanıyor
+    let currentIndex = 0;
+
+    slideData.forEach((data, index) => {
         const bgImg = document.createElement('img');
         bgImg.src = data.backgroundImage;
         bgSlider.appendChild(bgImg);
-
         const textSlide = document.createElement('article');
         textSlide.classList.add('content-slide');
         textSlide.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`;
         textRotator.appendChild(textSlide);
-
         const swiperSlide = document.createElement('div');
         swiperSlide.classList.add('swiper-slide');
         swiperSlide.innerHTML = `<img src="${data.cardImage}" alt="${data.title}">`;
         swiperWrapper.appendChild(swiperSlide);
+        const dot = document.createElement('button');
+        dot.classList.add('dot');
+        dot.dataset.index = index;
+        timelineNav.appendChild(dot);
     });
     
     const bgImages = document.querySelectorAll('.background-slider img');
     const textSlides = document.querySelectorAll('.content-slide');
-    let currentIndex = 0;
+    const navDots = document.querySelectorAll('.dot');
 
+    // Swiper'ı COVERFLOW efektiyle başlat
     const swiper = new Swiper('.swiper', {
-        effect: 'fade',
-        fadeEffect: { crossFade: true },
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
         loop: true,
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 50,
+            depth: 250,
+            modifier: 1,
+            slideShadows: false,
+        },
         navigation: {
             nextEl: '.next-btn',
             prevEl: '.prev-btn',
         },
         on: {
-            // Swiper hazır olduğunda ilk içeriği göster
             init: function () {
-                updateContent(this.realIndex);
+                initialize(this);
             },
-            // Slayt değiştiğinde içeriği güncelle
             slideChange: function () {
                 updateContent(this.realIndex);
             },
         },
     });
-
-    let currentIndex = 0;
+    
+    navDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index, 10);
+            swiper.slideToLoop(index);
+        });
+    });
 
     function updateContent(index) {
-        if (textSlides.length === 0) return;
+        if (currentIndex === index || !textSlides[currentIndex]) return;
+        
+        textSlides[currentIndex].classList.remove('is-active');
+        bgImages[currentIndex].classList.remove('is-active');
+        navDots[currentIndex].classList.remove('is-active');
 
-        // Önceki aktif sınıfları temizle
-        if (textSlides[currentIndex]) {
-             textSlides[currentIndex].classList.remove('is-active');
-             bgImages[currentIndex].classList.remove('is-active');
-        }
-       
-        // Yeni aktif sınıfları ekle
         textSlides[index].classList.add('is-active');
         bgImages[index].classList.add('is-active');
-        
-        // Metin alanının yüksekliğini ayarla
+        navDots[index].classList.add('is-active');
+
         const activeTextSlide = textSlides[index];
         textRotator.style.height = `${activeTextSlide.scrollHeight}px`;
         
-        // Mevcut index'i güncelle
         currentIndex = index;
+    }
+
+    function initialize(swiperInstance) {
+        if (bgImages.length > 0) bgImages[swiperInstance.realIndex].classList.add('is-active');
+        if (textSlides.length > 0) {
+            textSlides[swiperInstance.realIndex].classList.add('is-active');
+            textRotator.style.height = `${textSlides[swiperInstance.realIndex].scrollHeight}px`;
+        }
+        if (navDots.length > 0) navDots[swiperInstance.realIndex].classList.add('is-active');
+        showcase.classList.add('is-loaded');
+        currentIndex = swiperInstance.realIndex;
     }
 });
