@@ -23,7 +23,7 @@ body {
 
 /* --- SAĞ/ÜST TARAF: ANA GÖRSEL --- */
 .image-panel {
-    background-image: url('resim/hakkimizda-gorsel.jpg');
+    background-image: url('resim/hamur.jpg');
     background-size: cover;
     background-position: center;
     /* Mobilde ekranın %40'ı kadar bir yükseklik */
